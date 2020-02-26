@@ -1,18 +1,51 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import foods from './foods.json';
+import Foodbox from "./components/Foodbox";
+import AddNewFood from "./components/AddNewFood"
+import Search from "./components/Search"
 
 class App extends Component {
+  state = {
+    foodsList: foods
+  }
+
+  submitNewFood = (foodObj) => {
+    let newFoodsList = [...this.state.foodsList]
+    newFoodsList.push(foodObj)
+
+    this.setState({foodsList: newFoodsList})
+  }
+
+  newSearch = (searchObj) => {
+
+  }
+
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <div>
+            <button className="button is-active">Add food</button>
+        </div>
+        <div>
+            <button className="button is-active">Search</button>
+        </div>
+        <AddNewFood addedNewFood = {this.submitNewFood}/>
+        <Search newSearch={this.newSearch}/>
+
+        {this.state.foodsList.map(food => {
+          return <Foodbox
+          {...food}/>
+          // same as:
+          // name = {food.name}
+          // calories = {food.calories}
+          // image = {food.image}
+          // quantity = {food.quantity}
+          
+        }) 
+        }
+
       </div>
     );
   }
